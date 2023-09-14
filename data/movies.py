@@ -11,7 +11,7 @@ import kaggle
 
 kaggle.api.authenticate()
 
-
+setup_directories()
 logger = get_logger('movies.log')
 logger.info("checking if dataset is available locally")
 kaggle.api.dataset_download_files(MOVIE_DATASET, path='dataset/', unzip=True)

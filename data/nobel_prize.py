@@ -7,6 +7,7 @@ from tqdm import tqdm
 import pickle
 
 
+setup_directories()
 logger = get_logger('nobel_prize.log')
 
 logger.info("checking if dataset is available locally")

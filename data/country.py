@@ -7,6 +7,7 @@ from constants import *
 from utils import *
 
 
+setup_directories()
 logger = get_logger('nobel_prize.log')
 
 logger.info("checking if dataset is available locally")

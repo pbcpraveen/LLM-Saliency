@@ -2,6 +2,15 @@ import logging
 from constants import *
 from logging.handlers import RotatingFileHandler
 import sys
+import os
+
+
+def setup_directories():
+    if not os.path.exists('dataset/'):
+        os.makedirs('dataset/')
+    if not os.path.exists('logs/'):
+        os.makedirs('logs/')
+
 
 def get_logger(log_file, depth=logging.DEBUG):
     logging.basicConfig(filename="logs/{}".format(log_file),
