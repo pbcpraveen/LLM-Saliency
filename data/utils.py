@@ -115,3 +115,13 @@ def wget_bar_progress(current, total, width=80):
     # Don't use print() as it will print in new line every time.
     sys.stdout.write("\r" + progress_message)
     sys.stdout.flush()
+
+def chatgpt_query(query, model="gpt-3.5-turbo", temperature=0):
+    response = openai.ChatCompletion.create(
+            model=model,
+            messages = query,
+            temperature = temperature
+            )
+    print(response)
+
+    return response.choices[0].message["content"].replace('\n', ' ')
