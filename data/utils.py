@@ -3,6 +3,8 @@ from constants import *
 from logging.handlers import RotatingFileHandler
 import sys
 import os
+import openai
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def setup_directories():
@@ -81,7 +83,7 @@ def format_name(input_name):
 
 def get_record(raw_record, meta):
     record = {
-                ENTITY: EntityClass.PERSON.value,
+                ENTITY: meta[ENTITY],
                 CONTEXTUALISING_ATTRIBUTES: {},
                 TARGET_ATTRIBUTES: {}
     }
@@ -109,7 +111,7 @@ def validate_record(record):
 
 
 def wget_bar_progress(current, total, width=80):
-  progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
-  # Don't use print() as it will print in new line every time.
-  sys.stdout.write("\r" + progress_message)
-  sys.stdout.flush()
+    progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
+    # Don't use print() as it will print in new line every time.
+    sys.stdout.write("\r" + progress_message)
+    sys.stdout.flush()

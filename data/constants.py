@@ -91,14 +91,14 @@ metadata = {
                 Attribute.YEAR.value
             ],
             ConceptClass.PLACE.value: [
-              Attribute.BIRTH_CITY.value,
-              Attribute.DEATH_CITY.value,
-              Attribute.WORK_CITY.value
+                Attribute.BIRTH_CITY.value,
+                Attribute.DEATH_CITY.value,
+                Attribute.WORK_CITY.value
             ]
         }
     },
     MOVIE: {
-        ENTITY: EntityClass.MOVIE,
+        ENTITY: EntityClass.MOVIE.value,
         CONTEXTUALISING_ATTRIBUTES: [
             Attribute.MOVIE_TITLE.value,
             Attribute.RELEASE_YEAR_MOVIE.value,
@@ -109,10 +109,10 @@ metadata = {
         ],
         TARGET_ATTRIBUTES: {
             ConceptClass.PERSON_NAME.value: [Attribute.DIRECTOR_MOVIE.value,
-                                       Attribute.STAR1_MOVIE.value,
-                                       Attribute.STAR2_MOVIE.value,
-                                       Attribute.STAR3_MOVIE.value,
-                                       Attribute.STAR4_MOVIE.value]
+                Attribute.STAR1_MOVIE.value,
+                Attribute.STAR2_MOVIE.value,
+                Attribute.STAR3_MOVIE.value,
+                Attribute.STAR4_MOVIE.value]
         }
     }
 }
