@@ -18,7 +18,7 @@ def chatgpt_query(query, model = "gpt-4-0314", temperature=0):
             model=model,
             messages=query,
             temperature=temperature,
-            request_timeout=90,
+            # request_timeout=90, # set timeout in the thread instead of the api call - to reduce charges for timed-out threads
             max_tokens=150
             )
 
@@ -94,6 +94,6 @@ def create_and_run_api_request_threads(queries, n_threads, logger, temperature=0
     for i in range(n_threads):
         threads[i].start()
     for i in range(n_threads):
-        threads[i].join()
+        threads[i].join(timeout=90) # set timeout in the thread instead of the api call - to reduce charges for timed-out threads
 
     return responses
