@@ -1,5 +1,16 @@
 from enum import Enum
 
+import openai
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv('api_key.env')
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+PROMPT_COLUMN = 'prompt'
+
+
 ENTITY = "entity"
 CONTEXTUALISING_ATTRIBUTES = "contextualising_attributes"
 TARGET_ATTRIBUTES = "target_attributes"

@@ -105,8 +105,8 @@ def get_record(raw_record, meta):
 
 def validate_record(record):
     flag = not (None in list(record[CONTEXTUALISING_ATTRIBUTES].values()))
-    for i in record[TARGET_ATTRIBUTES].keys():
-        flag = (not (None in list(record[TARGET_ATTRIBUTES][i].values()))) and flag
+    for concept_class in record[TARGET_ATTRIBUTES].keys():
+        flag = (not (None in list(record[TARGET_ATTRIBUTES][concept_class].values()))) and flag
     return flag
 
 

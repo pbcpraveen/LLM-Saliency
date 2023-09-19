@@ -1,2 +1,4 @@
 data/logs/
 data/dataset/
+knowledge_validation/scartch.ipynb
+api_key.env

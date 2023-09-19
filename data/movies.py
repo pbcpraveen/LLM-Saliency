@@ -1,8 +1,4 @@
-import wget
-from constants import *
-import os
 from utils import *
-import json
 from tqdm import tqdm
 import pickle
 import pandas as pd
