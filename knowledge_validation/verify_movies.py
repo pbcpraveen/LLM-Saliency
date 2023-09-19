@@ -4,13 +4,14 @@ import pandas as pd
 import pickle
 from utils import *
 from tqdm import tqdm
+from common_utils import *
 
 movie_path = 'dataset\movies.pickle'
 verified_movie_path = 'dataset\movies_verified.pickle'
 verify_limit = -1 # verify all entities
 
-model='gpt-4-0314'
-temp=0
+model = 'gpt-4-0314'
+temp = 0
 
 # %%
 # read dataset
@@ -66,7 +67,7 @@ for title, prompt in prompt_list:
         print("Already verified:", title)
         pbar.update(1)
         continue
-    messages = [{'role':'user', 'content':prompt}]
+    messages = [{'role': 'user', 'content': prompt}]
     response = chatgpt_query(messages, model=model, temperature=temp)
     if entity_scorer(response, title):
         verified.append(entities[title])

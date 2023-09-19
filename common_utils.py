@@ -13,9 +13,9 @@ from threading import Thread
 
 responses = []
 
-def chatgpt_query(query, temperature=0):
+def chatgpt_query(query, model = "gpt-4-0314", temperature=0):
     response = openai.ChatCompletion.create(
-            model="gpt-4-0314",
+            model=model,
             messages=query,
             temperature=temperature,
             request_timeout=90,
