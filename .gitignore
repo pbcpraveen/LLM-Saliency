@@ -1,9 +1,5 @@
-data/logs/
-data/dataset/
 knowledge_validation/verify_movies.ipynb
 knowledge_validation/scartch.ipynb
-knowledge_validation/dataset/movies_unverified.pickle
-logs
 api_key.env
 */logs/
-*/dataset/
+*/dataset/*.csv
