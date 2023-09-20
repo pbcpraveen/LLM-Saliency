@@ -10,8 +10,13 @@ import sys
 import os
 import openai
 from threading import Thread
+from dotenv import load_dotenv
 
 responses = []
+
+
+load_dotenv('api_key.env')
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def chatgpt_query(query, model = "gpt-4-0314", temperature=0):
     response = openai.ChatCompletion.create(
@@ -23,7 +28,11 @@ def chatgpt_query(query, model = "gpt-4-0314", temperature=0):
             )
 
     return response.choices[0].message["content"].replace('\n', ' ')
+
+
 def setup_directories():
+    if not os.path.exists('dataset/'):
+        os.makedirs('dataset/')
     if not os.path.exists('logs/'):
         os.makedirs('logs/')
 
@@ -60,10 +69,7 @@ def query_thread(prompts, global_index):
             i += 1
             responses_thread.append(response)
             pbar.update(1)
-
         except Exception as e:
-            print(e)
-            print('sleeping')
             time.sleep(10)
     pbar.close()
     responses[global_index] = responses_thread

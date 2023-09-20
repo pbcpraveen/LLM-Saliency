@@ -9,11 +9,14 @@ load_dotenv('api_key.env')
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 PROMPT_COLUMN = 'prompt'
+GPT_4_RESPONSE = 'GPT 4 Response'
+INDEX_COLUMN = "index"
 
 
 ENTITY = "entity"
 CONTEXTUALISING_ATTRIBUTES = "contextualising_attributes"
 TARGET_ATTRIBUTES = "target_attributes"
+VERIFIED = "verified"
 
 # Sources
 WIKIBIO = "wiki_bio"

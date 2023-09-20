@@ -6,8 +6,8 @@ from utils import *
 from tqdm import tqdm
 from common_utils import *
 
-movie_path = 'dataset\movies.pickle'
-verified_movie_path = 'dataset\movies_verified.pickle'
+movie_path = '../data/dataset/movies.pickle'
+verified_movie_path = '../data/dataset/movies_verified.pickle'
 verify_limit = -1 # verify all entities
 
 model = 'gpt-4-0314'
