@@ -60,6 +60,7 @@ class Attribute(Enum):
     FIRST_NAME = "firstname"
     SURNAME = "surname"
     MOVIE_TITLE = "Series_Title"
+    MOVIE_DESCRIPTION = "Overview"
     RELEASE_YEAR_MOVIE = "Released_Year"
     CERTIFICATE_MOVIE = "Certificate"
     GENRE_MOVIE = "Genre"
@@ -117,6 +118,7 @@ metadata = {
             Attribute.MOVIE_TITLE.value,
             Attribute.RELEASE_YEAR_MOVIE.value,
             Attribute.GENRE_MOVIE.value,
+            Attribute.MOVIE_DESCRIPTION.value,
             Attribute.IMDB_RATING_MOVIE.value,
             Attribute.VOTES_COUNT_MOVIE.value,
             Attribute.CERTIFICATE_MOVIE.value
