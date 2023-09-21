@@ -18,16 +18,18 @@ responses = []
 load_dotenv('api_key.env')
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def chatgpt_query(query, model = "gpt-4-0314", temperature=0):
+def chatgpt_query(query, model = "gpt-4-0314", temperature=0, replace_newline=True, max_tokens=150):
     response = openai.ChatCompletion.create(
             model=model,
             messages=query,
             temperature=temperature,
             # request_timeout=90, # set timeout in the thread instead of the api call - to reduce charges for timed-out threads
-            max_tokens=150
+            max_tokens=max_tokens
             )
-
-    return response.choices[0].message["content"].replace('\n', ' ')
+    if replace_newline:
+        return response.choices[0].message["content"].replace('\n', ' ')
+    else:
+        return response.choices[0].message["content"]
 
 
 def setup_directories():

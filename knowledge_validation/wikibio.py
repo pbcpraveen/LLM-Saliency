@@ -55,6 +55,6 @@ for i in range(len(data)):
     data[i][VERIFIED] = flags[i]
 
 logger.info("Writing data with verified flag to dataset/wikibio_verified.pickle")
-with open('dataset/wikibio_verified.pickle', 'wb') as handle:
+with open(f"dataset/{VERIFIED_RECORDS[WIKIBIO]}", 'wb') as handle:
     pickle.dump(data, handle)
 

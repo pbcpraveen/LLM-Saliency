@@ -10,7 +10,7 @@ openai.organization = os.getenv('OPENAI_API_ORG_LEI')
 # movie_path = os.path.abspath('..\data\dataset\movies.pickle')
 # verified_movie_path = os.path.abspath('dataset\movies_verified.pickle')
 movie_path = os.path.abspath('data\dataset\movies.pickle')
-verified_movie_path = os.path.abspath('knowledge_validation\dataset\movies_verified.pickle')
+verified_movie_path = os.path.abspath(f'knowledge_validation\dataset\{VERIFIED_RECORDS[MOVIE]}')
 
 verify_limit = 2 # verify all entities
 n_threads = 1

@@ -88,5 +88,5 @@ for i in range(len(data)):
     data[i][VERIFIED] = flag
 
 logger.info("Writing data with verified flag to dataset/noble_prize_verified.pickle")
-with open('dataset/noble_prize_verified.pickle', 'wb') as handle:
+with open(f'dataset/{VERIFIED_RECORDS[NOBEL_PRIZE]}', 'wb') as handle:
     pickle.dump(data, handle)

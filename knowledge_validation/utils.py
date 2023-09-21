@@ -1,10 +1,12 @@
 import logging
 import sys
 from logging.handlers import RotatingFileHandler
-
 from constants import *
-
 import Levenshtein
+from dotenv import load_dotenv
+
+load_dotenv('../api_key.env')
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def get_names(response):

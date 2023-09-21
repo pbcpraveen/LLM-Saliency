@@ -29,6 +29,11 @@ MOVIE = "movie"
 COUNTRY_DATASET = ("https://raw.githubusercontent.com/bastianherre/global-leader-ideologies/"
                    "main/global_leader_ideologies.csv")
 
+VERIFIED_RECORDS = {
+    WIKIBIO: "wikibio_verified.pickle",
+    NOBEL_PRIZE: "noble_priZe_verified.pickle",
+    MOVIE: "movies_verified.pickle"
+}
 class ConceptClass(Enum):
     PLACE = "place"
     PERSON_NAME = "name"

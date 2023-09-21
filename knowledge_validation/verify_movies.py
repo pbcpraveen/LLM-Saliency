@@ -78,7 +78,7 @@ for title, prompt in prompt_list:
 pbar.close()
 print("# entities correctly identified:", len(verified), "out of", len(prompt_list))
 
-with open('dataset/movies_verified.pickle', 'wb') as handle:
+with open(f"dataset/{VERIFIED_RECORDS[MOVIE]}", 'wb') as handle:
     pickle.dump(verified, handle)
 
 # %%
