@@ -11,6 +11,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 PROMPT_COLUMN = 'prompt'
 GPT_4_RESPONSE = 'GPT 4 Response'
 INDEX_COLUMN = "index"
+PROMPT_INDEX_COLUMN = "prompt_index"
+GROUND_TRUTH = "ground_truth"
 
 
 ENTITY = "entity"
@@ -31,7 +33,7 @@ COUNTRY_DATASET = ("https://raw.githubusercontent.com/bastianherre/global-leader
 
 VERIFIED_RECORDS = {
     WIKIBIO: "wikibio_verified.pickle",
-    NOBEL_PRIZE: "noble_priZe_verified.pickle",
+    NOBEL_PRIZE: "noble_prize_verified.pickle",
     MOVIE: "movies_verified.pickle"
 }
 class ConceptClass(Enum):

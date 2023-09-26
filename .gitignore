@@ -3,3 +3,4 @@ knowledge_validation/scartch.ipynb
 api_key.env
 */logs/
 */dataset/*.csv
+*/scratch.ipynb

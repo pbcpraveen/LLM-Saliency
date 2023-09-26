@@ -2,6 +2,7 @@ import logging
 import threading
 import time
 
+from textdistance import Levenshtein
 from tqdm import tqdm
 
 from constants import *
@@ -62,7 +63,7 @@ def query_thread(prompts, global_index):
     i = 0
     responses_thread = []
     pbar = tqdm(total=count)
-    while len(responses_thread) != count:
+    while i < count:
         try:
             query = [
                 {"role": "user", "content": prompts[i]}
@@ -72,9 +73,12 @@ def query_thread(prompts, global_index):
             responses_thread.append(response)
             pbar.update(1)
         except Exception as e:
+            print(e)
             time.sleep(10)
     pbar.close()
     responses[global_index] = responses_thread
+    print("Thread " + str(i) + "completed ")
+    print("==============================================================")
 
 
 def create_and_run_api_request_threads(queries, n_threads, logger, temperature=0):
@@ -105,3 +109,48 @@ def create_and_run_api_request_threads(queries, n_threads, logger, temperature=0
         threads[i].join(timeout=90) # set timeout in the thread instead of the api call - to reduce charges for timed-out threads
 
     return responses
+
+def name_match(candidate, responses):
+    for i in responses:
+        if name_similarity(candidate, i):
+            return True
+    return False
+
+
+def normalize_string(s):
+    """Convert string to lowercase and remove non-alphanumeric characters."""
+    return ''.join(c for c in s if c.isalnum()).lower()
+
+
+def tokenize_string(s):
+    """Split string into tokens."""
+    return s.split()
+
+
+def is_abbreviation(abbr, word):
+    """Check if `abbr` is an abbreviation of `word`."""
+    return word.startswith(abbr)
+
+
+def name_similarity(name1, name2):
+    """Calculate similarity score between two names."""
+    # Normalizing the names
+    norm_name1 = normalize_string(name1)
+    norm_name2 = normalize_string(name2)
+
+    # Tokenizing the names
+    tokens1 = tokenize_string(norm_name1)
+    tokens2 = tokenize_string(norm_name2)
+
+    # Initial match based on abbreviations
+    for token1 in tokens1:
+        for token2 in tokens2:
+            if is_abbreviation(token1, token2) or is_abbreviation(token2, token1):
+                return True
+
+    # Using Levenshtein distance as a similarity metric
+    distance = Levenshtein.distance(norm_name1, norm_name2)
+    max_len = max(len(norm_name1), len(norm_name2))
+    similarity = (max_len - distance) / max_len
+
+    return similarity > 0.8  # Threshold can be adjusted
