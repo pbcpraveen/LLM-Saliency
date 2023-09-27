@@ -53,3 +53,12 @@ def get_score(df, index):
     result = [str(response[i]) == str(ground_truth[i]) for i in range(len(response))]
     accuracy = sum(result) / len(result)
     return accuracy
+
+
+def extract_year(string):
+    pattern = r"\d{4}"  # Matches any 4-digit number
+    match = re.search(pattern, string)
+    if match:
+        return match.group()
+    else:
+        return None

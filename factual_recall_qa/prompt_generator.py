@@ -9,6 +9,7 @@ import openai
 import pickle
 import dotenv
 import random
+import time
 
 path = Path(os.getcwd())
 sys.path.append(str(path.parent.absolute()))
@@ -26,8 +27,8 @@ logger = get_logger(F"{NOBEL_PRIZE}.log", depth="INFO")
 meta = metadata[NOBEL_PRIZE]
 verified_record = pickle.load(open(f"../knowledge_validation/dataset/{VERIFIED_RECORDS[NOBEL_PRIZE]}", "rb"))
 
-target_attribute = Attribute.YEAR.value
-display_target_attribute = target_attribute + ' of winning nobel prize'
+target_attribute = Attribute.DEATH_DATE_NOBEL.value
+display_target_attribute = "death year"
 concept_class = None
 
 for i in meta[TARGET_ATTRIBUTES].keys():
@@ -65,7 +66,7 @@ df = pd.DataFrame()
 df[PROMPT_INDEX_COLUMN] = list(itertools.chain(*[[i] * 250 for i in range(len(candidate_prompts))]))
 input_output_pair = list(itertools.chain(*[test_prompts[prompt] for prompt in test_prompts.keys()]))
 df[PROMPT_COLUMN] = [pair[0] for pair in input_output_pair]
-df[GROUND_TRUTH] = [pair[1] for pair in input_output_pair]
+df[GROUND_TRUTH] = [extract_year(pair[1]) for pair in input_output_pair]
 
 logger.info("Running API requests for the test prompts.")
 query_prompts = df[PROMPT_COLUMN].to_list()
@@ -75,7 +76,8 @@ responses = list(itertools.chain(*responses))
 df[GPT_4_RESPONSE] = responses
 
 logger.info(f"Writing GPT4 response to dataset/{meta[ENTITY]}_candidate_prompts.csv")
-df.to_csv(f'dataset/{meta[ENTITY]}_candidate_prompts.csv')
+df.to_csv(f'dataset/{meta[ENTITY]}_{target_attribute}_candidate_prompts.csv')
+time.sleep(10)
 
 prompt_index = df[PROMPT_INDEX_COLUMN].unique().tolist()
 
@@ -94,3 +96,4 @@ prompts_selected = [candidate_prompts[i] for i in candidates]
 best_prompt = max(prompts_selected, key=len)
 with open(f"dataset/{meta[ENTITY]}_{target_attribute}_candidate_prompts.txt", "w") as text_file:
     text_file.write(best_prompt)
+time.sleep(10)
