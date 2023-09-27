@@ -1,0 +1,1 @@
+Identify the birth city of firstname surname, who received a Nobel Prize in category due to their motivation.
