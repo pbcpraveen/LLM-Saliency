@@ -46,11 +46,14 @@ def get_entity_prompt(meta: dict, entity: dict, template: str, target_attribute:
     return template.replace("[", "").replace("]", "")
 
 
-def get_score(df, index):
+def get_score(df, index, concept_class=ConceptClass.YEAR.value):
     filtered = df[df[PROMPT_INDEX_COLUMN] == index]
     ground_truth = filtered[GROUND_TRUTH].to_list()
     response = filtered[GPT_4_RESPONSE].to_list()
-    result = [str(response[i]) == str(ground_truth[i]) for i in range(len(response))]
+    if concept_class == ConceptClass.YEAR.value:
+        result = [str(extract_year(response[i])) == str(extract_year(ground_truth[i])) for i in range(len(response))]
+    else:
+        result = [name_similarity(str(response[i]), str(ground_truth[i])) for i in range(len(response))]
     accuracy = sum(result) / len(result)
     return accuracy
 

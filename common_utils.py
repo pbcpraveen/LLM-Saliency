@@ -149,7 +149,8 @@ def name_similarity(name1, name2):
                 return True
 
     # Using Levenshtein distance as a similarity metric
-    distance = Levenshtein.distance(norm_name1, norm_name2)
+    levenshtein = Levenshtein()
+    distance = levenshtein.distance(norm_name1, norm_name2)
     max_len = max(len(norm_name1), len(norm_name2))
     similarity = (max_len - distance) / max_len
 
