@@ -22,9 +22,9 @@ VERIFIED = "verified"
 
 # Sources
 WIKIBIO = "wiki_bio"
-NOBEL_PRIZE_DATASET = ("https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/nobel-prize-laureates/exports/"
+NOBEL_LAUREATES_DATASET = ("https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/nobel-prize-laureates/exports/"
                        "json?lang=en&timezone=America%2FLos_Angeles")
-NOBEL_PRIZE = "nobel_prize"
+NOBEL_LAUREATES = "nobel_laureates"
 MOVIE_DATASET = ("harshitshankhdhar/imdb-dataset-of-top-1000-movies-and-tv-shows")
 MOVIE = "movie"
 
@@ -33,7 +33,7 @@ COUNTRY_DATASET = ("https://raw.githubusercontent.com/bastianherre/global-leader
 
 VERIFIED_RECORDS = {
     WIKIBIO: "wikibio_verified.pickle",
-    NOBEL_PRIZE: "noble_prize_verified.pickle",
+    NOBEL_LAUREATES: "nobel_laureates_verified.pickle",
     MOVIE: "movies_verified.pickle"
 }
 class ConceptClass(Enum):
@@ -98,7 +98,7 @@ metadata = {
             ConceptClass.PLACE.value: [Attribute.BIRTH_PLACE.value, Attribute.DEATH_PLACE.value]
         }
     },
-    NOBEL_PRIZE: {
+    NOBEL_LAUREATES: {
         ENTITY: EntityClass.NOBEL_LAUREATES.value,
         CONTEXTUALISING_ATTRIBUTES: [
             Attribute.FIRST_NAME.value,

@@ -25,13 +25,12 @@ logger.info("Loading movies data")
 with open(movie_path, 'rb') as mov:
     movies = pickle.load(mov)
 # %%
-# generate prompts
+# function for identifying entities
 def get_movie_id (entity):
-    context = tuple(entity[CONTEXTUALISING_ATTRIBUTES].items())
-    first_val = context[0][1]
-    second_val = context[1][1]
-    return first_val+second_val
+    context = tuple(entity[CONTEXTUALISING_ATTRIBUTES].values())
+    return ''.join(context)
 
+# generate prompts
 logger.info("Generating movies verification prompts")
 entities = {}
 prompts = {}
@@ -85,11 +84,11 @@ response_texts = ';'.join([';'.join(batch) for batch in responses]) # concatenat
 
 for id in ids: # check repetition scores
     new_ent = entities[id]
-    new_ent['validated'] = entity_scorer(response_texts, id)
+    new_ent['verified'] = entity_scorer(response_texts, id)
     verified.append(entities[id])
 
 print("Total # entities checked:", len(verified))
-print("Total # entities correctly identified:", len([ent for ent in verified if ent['validated']]))
+print("Total # entities correctly identified:", len([ent for ent in verified if ent['verified']]))
 
 with open(verified_movie_path, 'wb') as handle:
     pickle.dump(verified, handle)
