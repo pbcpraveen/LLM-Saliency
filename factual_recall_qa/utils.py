@@ -37,7 +37,7 @@ def get_prompt_generator_prompt(entity, target_attribute):
 
 def get_entity_prompt(meta: dict, entity: dict, template: str, target_attribute: str):
     contextualising_attributes = entity[CONTEXTUALISING_ATTRIBUTES]
-    print(contextualising_attributes)
+    # print(contextualising_attributes)
     for i in meta[CONTEXTUALISING_ATTRIBUTES]:
         if contextualising_attributes[i] is not None:
             template = template.replace(i, contextualising_attributes[i].replace('\"', ''))
@@ -45,15 +45,17 @@ def get_entity_prompt(meta: dict, entity: dict, template: str, target_attribute:
     template += f'You must only output the {target_attribute.replace("_", " ")} in your response.'
     return template.replace("[", "").replace("]", "")
 
+def score_attribute(concept_class, generation, ground_truth):
+    if concept_class == ConceptClass.YEAR.value:
+        return str(extract_year(generation)) == str(extract_year(ground_truth))
+    else:
+        return name_similarity(str(generation), str(ground_truth))
 
 def get_score(df, index, concept_class=ConceptClass.YEAR.value):
     filtered = df[df[PROMPT_INDEX_COLUMN] == index]
     ground_truth = filtered[GROUND_TRUTH].to_list()
     response = filtered[GPT_4_RESPONSE].to_list()
-    if concept_class == ConceptClass.YEAR.value:
-        result = [str(extract_year(response[i])) == str(extract_year(ground_truth[i])) for i in range(len(response))]
-    else:
-        result = [name_similarity(str(response[i]), str(ground_truth[i])) for i in range(len(response))]
+    result = [score_attribute(concept_class,response[i],ground_truth[i]) for i in range(len(response))]
     accuracy = sum(result) / len(result)
     return accuracy
 
