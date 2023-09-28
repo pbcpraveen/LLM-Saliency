@@ -57,7 +57,7 @@ def get_logger(log_file, depth=logging.DEBUG):
     return logger
 
 
-def query_thread(prompts, global_index):
+def query_thread(prompts, global_index, model, temp):
     global responses
     count = len(prompts)
     i = 0
@@ -68,7 +68,7 @@ def query_thread(prompts, global_index):
             query = [
                 {"role": "user", "content": prompts[i]}
             ]
-            response = chatgpt_query(query)
+            response = chatgpt_query(query, model=model, temperature=temp)
             i += 1
             responses_thread.append(response)
             pbar.update(1)
@@ -81,7 +81,7 @@ def query_thread(prompts, global_index):
     print("==============================================================")
 
 
-def create_and_run_api_request_threads(queries, n_threads, logger, temperature=0):
+def create_and_run_api_request_threads(queries, n_threads, logger, model='gpt-4-0314', temperature=0):
     global responses
 
     count = len(queries)
@@ -96,7 +96,7 @@ def create_and_run_api_request_threads(queries, n_threads, logger, temperature=0
 
     threads = []
     for i in range(n_threads):
-        threads.append(threading.Thread(target=query_thread, args=(partitions[i], i,)))
+        threads.append(threading.Thread(target=query_thread, args=(partitions[i], i,model, temperature)))
 
     logger.info("starting API resquests to OPENAI's GPT 4 using " + str(n_threads) + " threads")
     logger.info("Number of threads created: " + str(len(threads)))
