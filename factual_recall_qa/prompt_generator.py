@@ -27,8 +27,8 @@ logger = get_logger(F"{NOBEL_PRIZE}.log", depth="INFO")
 meta = metadata[NOBEL_PRIZE]
 verified_record = pickle.load(open(f"../knowledge_validation/dataset/{VERIFIED_RECORDS[NOBEL_PRIZE]}", "rb"))
 
-target_attribute = Attribute.DEATH_CITY.value
-display_target_attribute = "city of death"
+target_attribute = Attribute.WORK_CITY.value
+display_target_attribute = "city where they worked when they received the prize"
 concept_class = None
 
 for i in meta[TARGET_ATTRIBUTES].keys():
