@@ -3,6 +3,9 @@ import sys
 import os
 from pathlib import Path
 import pickle
+from random import sample
+
+import numpy as np
 import pandas as pd
 import json
 import openai
@@ -39,8 +42,11 @@ def get_entity_prompt(meta: dict, entity: dict, template: str, target_attribute:
     contextualising_attributes = entity[CONTEXTUALISING_ATTRIBUTES]
     # print(contextualising_attributes)
     for i in meta[CONTEXTUALISING_ATTRIBUTES]:
-        if contextualising_attributes[i] is not None:
-            template = template.replace(i, contextualising_attributes[i].replace('\"', ''))
+        try:
+            if contextualising_attributes[i] is not None:
+                    template = template.replace(i, contextualising_attributes[i].replace('\"', ''))
+        except:
+           template = template.replace(i, "unknown")
     template += '\n'
     template += f'You must only output the {target_attribute.replace("_", " ")} in your response.'
     return template.replace("[", "").replace("]", "")
@@ -61,9 +67,70 @@ def get_score(df, index, concept_class=ConceptClass.YEAR.value):
 
 
 def extract_year(string):
+    if string is None:
+        return None
     pattern = r"\d{4}"  # Matches any 4-digit number
     match = re.search(pattern, string)
     if match:
         return match.group()
     else:
         return None
+
+def format_example_ground_truth(value, target_attribute, template):
+    concept_class = None
+    for concept in template[TARGET_ATTRIBUTES]:
+        if target_attribute in template[TARGET_ATTRIBUTES][concept]:
+            concept_class = concept
+            break
+    if concept_class == ConceptClass.YEAR.value:
+        return str(extract_year(value))
+    else:
+        return value
+def generate_icl_query_indirect(examples, query, target_attribute, template):
+    contextualising_attributes = template[CONTEXTUALISING_ATTRIBUTES]
+    examples_queries = []
+    for idx, row in examples.iterrows():
+        examples_query = []
+        for attribute in contextualising_attributes:
+            if row[attribute] is not None:
+                examples_query.append(row[attribute])
+        examples_query = ', '.join(examples_query)
+        examples_query += (': ' + format_example_ground_truth(row[target_attribute], target_attribute, template))
+        examples_queries.append(examples_query)
+    examples_queries = '\n'.join(examples_queries)
+    examples_queries += '\n'
+    target_query = []
+    for attribute in contextualising_attributes:
+        if query[attribute] is not None:
+            target_query.append(query[attribute])
+    target_query = ', '.join(target_query) + ': '
+    query_final = examples_queries + target_query
+
+    return query_final, query[target_attribute]
+
+
+def get_icl_examples(entities, template, target_attribute, count=500):
+    example_count = count
+    icl_prompt_indirect = []
+    ground_truth = []
+    i = 0
+    visited = set()
+    pbar = tqdm(total=example_count)
+    while i < example_count:
+        sampled = sample(entities, 4)
+        query = sampled[3][INDEX_COLUMN]
+        if query in visited:
+            continue
+        visited.add(query)
+        query, target = generate_icl_query_indirect(pd.DataFrame(sampled[:3]), sampled[3], target_attribute, template)
+        icl_prompt_indirect.append(query)
+        ground_truth.append(target)
+        i += 1
+        pbar.update(1)
+    pbar.close()
+
+    df = pd.DataFrame()
+    df[ICL_PROMPT_COLUMN] = icl_prompt_indirect
+    df[GROUND_TRUTH] = ground_truth
+
+    return df

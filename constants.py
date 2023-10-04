@@ -13,6 +13,7 @@ GPT_4_RESPONSE = 'GPT 4 Response'
 INDEX_COLUMN = "index"
 PROMPT_INDEX_COLUMN = "prompt_index"
 GROUND_TRUTH = "ground_truth"
+ICL_PROMPT_COLUMN = "icl_prompt"
 
 
 ENTITY = "entity"
@@ -30,6 +31,8 @@ MOVIE = "movie"
 
 COUNTRY_DATASET = ("https://raw.githubusercontent.com/bastianherre/global-leader-ideologies/"
                    "main/global_leader_ideologies.csv")
+
+ATTRIBUTE_VERIFIED = "attribute_verified"
 
 VERIFIED_RECORDS = {
     WIKIBIO: "wikibio_verified.pickle",
@@ -125,9 +128,6 @@ metadata = {
             Attribute.MOVIE_TITLE.value,
             Attribute.RELEASE_YEAR_MOVIE.value,
             Attribute.GENRE_MOVIE.value,
-            Attribute.MOVIE_DESCRIPTION.value,
-            Attribute.IMDB_RATING_MOVIE.value,
-            Attribute.VOTES_COUNT_MOVIE.value,
             Attribute.CERTIFICATE_MOVIE.value
         ],
         TARGET_ATTRIBUTES: {

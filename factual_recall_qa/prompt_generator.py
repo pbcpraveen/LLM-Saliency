@@ -22,13 +22,13 @@ load_dotenv('../api_key.env')
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 setup_directories()
-logger = get_logger(F"{NOBEL_PRIZE}.log", depth="INFO")
+logger = get_logger(F"{MOVIE}.log", depth="INFO")
 
-meta = metadata[NOBEL_PRIZE]
-verified_record = pickle.load(open(f"../knowledge_validation/dataset/{VERIFIED_RECORDS[NOBEL_PRIZE]}", "rb"))
+meta = metadata[MOVIE]
+verified_record = pickle.load(open(f"../knowledge_validation/dataset/{VERIFIED_RECORDS[MOVIE]}", "rb"))
 
-target_attribute = Attribute.WORK_CITY.value
-display_target_attribute = "city where they worked when they received the prize"
+target_attribute = Attribute.DIRECTOR_MOVIE.value
+display_target_attribute = target_attribute
 concept_class = None
 
 for i in meta[TARGET_ATTRIBUTES].keys():

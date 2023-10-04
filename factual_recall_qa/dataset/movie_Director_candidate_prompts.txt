@@ -1,0 +1,1 @@
+ Name the director of the Series_Title film released in Released_Year, belonging to the Genre genre, and having a Certificate rating.
