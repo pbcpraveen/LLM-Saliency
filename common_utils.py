@@ -1,6 +1,7 @@
 import logging
 import threading
 import time
+import unicodedata
 
 from textdistance import Levenshtein
 from tqdm import tqdm
@@ -12,6 +13,7 @@ import os
 import openai
 from threading import Thread
 from dotenv import load_dotenv
+import re
 
 responses = []
 
@@ -117,9 +119,18 @@ def name_match(candidate, responses):
     return False
 
 
-def normalize_string(s):
-    """Convert string to lowercase and remove non-alphanumeric characters."""
-    return ''.join(c for c in s if c.isalnum()).lower()
+def normalize_string(input_str):
+    # Remove punctuation and extra whitespace
+    input_str = re.sub(r'[^\w\s]', '', input_str)
+    input_str = ' '.join(input_str.split())
+
+    # Remove diacritics (accent marks)
+    input_str = ''.join(c for c in unicodedata.normalize('NFKD', input_str) if not unicodedata.combining(c))
+
+    # Convert to lowercase for case-insensitive comparison
+    input_str = input_str.lower()
+
+    return input_str
 
 
 def tokenize_string(s):
