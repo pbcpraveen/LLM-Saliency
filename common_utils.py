@@ -142,8 +142,7 @@ def is_abbreviation(abbr, word):
     """Check if `abbr` is an abbreviation of `word`."""
     return word.startswith(abbr)
 
-
-def name_similarity(name1, name2):
+def name_similarity_exact(name1, name2):
     """Calculate similarity score between two names."""
     # Normalizing the names
     norm_name1 = normalize_string(name1)
@@ -157,7 +156,7 @@ def name_similarity(name1, name2):
     for token1 in tokens1:
         for token2 in tokens2:
             if is_abbreviation(token1, token2) or is_abbreviation(token2, token1):
-                return True
+                return 1
 
     # Using Levenshtein distance as a similarity metric
     levenshtein = Levenshtein()
@@ -165,4 +164,8 @@ def name_similarity(name1, name2):
     max_len = max(len(norm_name1), len(norm_name2))
     similarity = (max_len - distance) / max_len
 
-    return similarity > 0.8  # Threshold can be adjusted
+    return similarity
+
+def name_similarity(name1, name2):
+    """Calculate similarity score between two names."""
+    return name_similarity_exact(name1, name2) > 0.8  # Threshold can be adjusted

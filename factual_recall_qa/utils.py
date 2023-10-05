@@ -67,7 +67,7 @@ def get_score(df, index, concept_class=ConceptClass.YEAR.value):
 
 
 def extract_year(string):
-    if string is None:
+    if string is None or (isinstance(string, float) and np.isnan(string)):
         return None
     pattern = r"\d{4}"  # Matches any 4-digit number
     match = re.search(pattern, string)
